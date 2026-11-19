@@ -1,0 +1,34 @@
+{
+  "name": "hayati-login-automation",
+  "type": "module",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:ui": "playwright test --ui",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:chromium": "node reset-blokir.js && playwright test --project=chromium --grep-invert \"Blokir akun\"",
+    "test:blokir": "node reset-blokir.js && playwright test --project=chromium -g \"Blokir akun\" --workers=1",
+    "test:firefox": "playwright test --project=firefox",
+    "test:webkit": "playwright test --project=webkit",
+    "test:single": "playwright test --workers=1",
+    "test:smoke": "playwright test -g \"@smoke\"",
+    "report": "playwright show-report"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@playwright/test": "^1.63.0",
+    "@types/node": "^26.6.3",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10",
+    "pg": "^8.23.1"
+  }
+}
