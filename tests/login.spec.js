@@ -291,9 +291,9 @@ test.describe("Blokir akun", () => {
   });
 
   test("login benar saat akun masih terblokir", async ({ page }) => {
-    // password BENAR, tapi akun masih terblokir dari tes sebelumnya
+    // password benar, tapi akun masih terblokir dari tes sebelumnya
     const response = await login(page, EMAIL_UJI_BLOKIR, SANDI_UJI_BLOKIR);
-    expect(response.status()).toBe(429); // cek di tab Jaringan, sesuaikan kalau beda
+    expect(response.status()).toBe(429);
 
     await expect(page.locator(".login-error")).toContainText(
       /Terlalu banyak percobaan login/,
