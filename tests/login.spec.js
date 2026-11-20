@@ -7,6 +7,9 @@ const EMAIL_BELUM_ACC = process.env.EMAIL_BELUM_ACC;
 const SANDI_BELUM_ACC = process.env.SANDI_BELUM_ACC;
 const EMAIL_UJI_BLOKIR = process.env.EMAIL_UJI_BLOKIR;
 const SANDI_UJI_BLOKIR = process.env.SANDI_UJI_BLOKIR;
+const EMAIL_UJI_GAGAL_1 = process.env.EMAIL_UJI_GAGAL_1;
+const SANDI_UJI_GAGAL_1 = process.env.SANDI_UJI_GAGAL_1;
+const EMAIL_UJI_GAGAL_2 = process.env.EMAIL_UJI_GAGAL_2;
 
 async function login(page, email, sandi) {
   await page.getByPlaceholder("contoh: nama@email.com").fill(email);
@@ -167,14 +170,18 @@ test.describe("Login Gagal", () => {
   });
 
   test("Password Salah", async ({ page }) => {
-    const response = await login(page, EMAIL_VALID, SANDI_VALID.toLowerCase());
+    const response = await login(
+      page,
+      EMAIL_UJI_GAGAL_1,
+      SANDI_UJI_GAGAL_1.toLowerCase(),
+    );
 
     expect(response.status()).toBe(401);
     await cekLoginGagal(page);
   });
 
   test("Password 7 Karakter", async ({ page }) => {
-    const response = await login(page, EMAIL_VALID, "qwEr3!k");
+    const response = await login(page, EMAIL_UJI_GAGAL_1, "qwEr3!k");
     expect(response.status()).toBe(401);
     await cekLoginGagal(page);
   });
@@ -251,15 +258,16 @@ test.describe("SQL Injection pada Kata Sandi", () => {
     "'; DROP TABLE users; --",
   ];
 
-  for (const payload of payloads) {
+  payloads.forEach((payload, i) => {
+    const email = i < 2 ? EMAIL_UJI_GAGAL_1 : EMAIL_UJI_GAGAL_2;
     test(`Kata Sandi: ${payload}`, async ({ page }) => {
-      const response = await login(page, EMAIL_VALID, payload);
+      const response = await login(page, email, payload);
 
       expect(response.status()).toBe(401);
 
       await cekLoginGagal(page);
     });
-  }
+  });
 });
 test.describe("Blokir akun", () => {
   test.describe.configure({ mode: "serial" });
